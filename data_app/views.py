@@ -2,9 +2,12 @@ from rest_framework import generics, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework import status
+from .models import UserLogin,ParentsData
+from .serializers import UserLoginSerializer, UserCreateSerializer,ParentsDataSerializer
 
-from .models import UserLogin
-from .serializers import UserLoginSerializer, UserCreateSerializer
+
+from rest_framework.decorators import api_view
 
 
 class UserListView(generics.ListAPIView):
@@ -30,3 +33,13 @@ class CustomAuthToken(ObtainAuthToken):
             'id': user.pk,
             'email': user.email
         })
+    
+
+@api_view(['POST'])
+def createParentData(request):
+    serializer = ParentsDataSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
