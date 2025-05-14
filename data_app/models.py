@@ -53,3 +53,25 @@ class UserLogin(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return self.is_superuser == 1
+
+
+
+class ParentsData(models.Model):
+    parent_id = models.AutoField(primary_key=True)
+    father_name = models.CharField(max_length=50)
+    father_occupation = models.CharField(max_length=50)
+    father_mobile = models.CharField(max_length=10)
+    father_email = models.CharField(max_length=50)
+    mother_name = models.CharField(max_length=50)
+    mother_occupation = models.CharField(max_length=50)
+    mother_mobile = models.CharField(max_length=10)
+    mother_email = models.CharField(max_length=50)
+    created_at = models.DateTimeField()
+    created_by = models.CharField(max_length=255)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    updated_by = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'parents_data'
+        unique_together = (('father_email', 'mother_email'),)
