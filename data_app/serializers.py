@@ -34,10 +34,5 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class ParentsDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ParentsData
-        fields = ['father_name', 'father_occupation']
+        fields = '__all__'
 
-{
-    "father_name":"arshad",
-    "father_occupation":"farmer",
-    "created_at":"2025-12-08"
-}
