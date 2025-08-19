@@ -98,7 +98,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'educoredb',
         'USER': 'root',
-        'PASSWORD': 'mysql',
+        'PASSWORD': 'Mohammad@khan',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
