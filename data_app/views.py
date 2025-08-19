@@ -35,11 +35,28 @@ class CustomAuthToken(ObtainAuthToken):
         })
     
 
-@api_view(['POST'])
-def createParentData(request):
-    serializer = ParentsDataSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET','POST'])
+def createParentData(request,pk=None,format=None):
+    print(request,"type of request",type(request))
+    print("requestdata",request.data,"type of data",type(request.data))
+    if request.method == 'POST':
+        serializer = ParentsDataSerializer(data=request.data)
+        print("serializerdata",serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    elif request.method == 'GET':
+        if pk:  # fetch single parent
+            try:
+                parent = ParentsData.objects.get(pk=pk)
+                serializer = ParentsDataSerializer(parent)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except ParentsData.DoesNotExist:
+                return Response({"error": "Parent not found"}, status=status.HTTP_404_NOT_FOUND)
+        else:  # fetch all parents
+            parents = ParentsData.objects.all()
+            serializer = ParentsDataSerializer(parents, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    

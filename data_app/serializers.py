@@ -34,7 +34,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class ParentsDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ParentsData
-        fields = ['father_name', 'father_occupation']
+        fields = ['father_name',
+            'father_occupation',
+            'father_email',
+            'mother_name',
+            'mother_occupation',
+            'mother_email',]
 
 {
     "father_name":"arshad",
